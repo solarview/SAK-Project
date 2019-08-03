@@ -32,7 +32,7 @@ def get_medicines():
     return rows
 
 
-def is_medicine_exist(medicine_id: int) -> int:  # need to return 0 or 1
+def is_medicine_exist(medicine_id: int) -> int:  # TODO use RPi.GPIO, return 0 or 1
     return 0
 
 
