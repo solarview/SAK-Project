@@ -3,7 +3,7 @@ import urllib.request
 import os
 
 
-# id_treatment(id, name, version, document, images( id : image data))
+# id_treatment(id, name, version, document, images( id : image data //Not now))
 # how to call image id in doc: $$0$$
 
 def update_treatments():
