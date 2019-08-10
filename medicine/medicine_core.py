@@ -1,4 +1,9 @@
 import sqlite3
+import os
+import sys
+
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
 import sak_core
 
 
@@ -14,11 +19,11 @@ def start():
             is_exist = True
     if not is_exist:  # If Table is not exist, we will create table
         cur.execute("CREATE TABLE "
-                         "medicine("
-                         "id INTEGER NOT NULL,"
-                         "name TEXT, "
-                         "is_exist INTEGER DEFAULT 0 NOT NULL)"
-                         )  # medicine(id, name, is_exist)
+                    "medicine("
+                    "id INTEGER NOT NULL,"
+                    "name TEXT, "
+                    "is_exist INTEGER DEFAULT 0 NOT NULL)"
+                    )  # medicine(id, name, is_exist)
         for i in range(1, sak_core.NUMBER_OF_MEDICINE_CONTAINER):
             cur.execute("INSERT INTO medicine(id) VALUES (?)", [i])
 
@@ -26,7 +31,7 @@ def start():
 def get_medicines():
     conn = sqlite3.connect('../resources/medicine.db')  # get medicine data
     cur = conn.cursor()
-    cur.execute("SELECT * FROM medicine")
+    cur.execute("SELECT id, name, is_exist FROM medicine")
     rows = cur.fetchall()
     conn.close()
     return rows
@@ -36,9 +41,13 @@ def is_medicine_exist(medicine_id: int) -> int:  # TODO use RPi.GPIO, return 0 o
     return 0
 
 
+def turn_on_led(medicine_id: int):  # TODO use RPI.GPIO
+    pass
+
+
 def register_medicine(medicine_id: int, name: str):
     conn = sqlite3.connect('../resources/medicine.db')  # get medicine data
     cur = conn.cursor()
     cur.execute("UPDATE medicine SET name = ?, is_exist = ? WHERE id = ?",
-                     [name, is_medicine_exist(medicine_id), medicine_id])
+                [name, is_medicine_exist(medicine_id), medicine_id])
     conn.close()
