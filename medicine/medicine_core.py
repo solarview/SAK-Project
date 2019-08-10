@@ -8,7 +8,7 @@ import sak_core
 
 
 def start():
-    conn = sqlite3.connect('../resources/medicine.db')  # get medicine data
+    conn = sqlite3.connect(sak_core.RESOURCE_DIR_PATH + 'medicine.db')  # get medicine data
     cur = conn.cursor()
     cur.execute(
         "SELECT name FROM sqlite_master WHERE type='table' AND name='medicine'")  # Table Name is 'medicine'
@@ -41,7 +41,7 @@ def is_medicine_exist(medicine_id: int) -> int:  # TODO use RPi.GPIO, return 0 o
     return 0
 
 
-def turn_on_led(medicine_id: int):  # TODO use RPI.GPIO
+def turn_on_led(medicine_id: int):  # TODO use RPI.GPIO, only for a sec
     pass
 
 
