@@ -3,11 +3,11 @@ from tkinter import Tk, Canvas, PhotoImage, CENTER
 
 import math
 
-import medicine.medicine_list_gui as medicine
-import treatment.treatment_gui as treatment
-import cprhelper.cprhelper_gui as cpr
-import heartbeat.heartbeat_gui as heartbeat
-import emergency.emergency_gui as emergency
+import medicine
+import treatment
+import cprhelper as cpr
+import heartbeat
+import emergency
 
 NUMBER_OF_MEDICINE_CONTAINER = 8
 NUMBER_OF_IMAGE_BUTTON = 0
@@ -45,11 +45,11 @@ def create_image_button(canvas: Canvas, window: Tk, name: str) -> Canvas:
 
 
 def treatment_callback():
-    treatment.start()
+    treatment.start_gui()
 
 
 def medicine_callback():
-    medicine.start_gui()
+    medicine.start_list_gui()
 
 
 def emergency_callback():

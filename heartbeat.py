@@ -1,4 +1,3 @@
-import heartbeat_core
 from datetime import datetime
 from Tkinter import Tk, TOP, BOTH
 from matplotlib.figure import Figure
@@ -36,10 +35,14 @@ def show_heartbeat():
     global heartbeat_history, dataplot, pplot
 
     heartbeat_history[datetime.now().strftime(
-        "%H:%M:%S")] = heartbeat_core.getHeartBeat()
+        "%H:%M:%S")] = getHeartBeat()
 
     pplot.plot(heartbeat_history.keys, heartbeat_history.values)
     dataplot.draw()
     pplot.clear()
 
     dataplot.get_tk_widget().after(1000 * 1, show_heartbeat)
+
+
+def getHeartBeat() -> int:  # TODO use RPi.GPIO Library to get hertbeat
+    return 0
