@@ -1,10 +1,13 @@
 import os
-from tkinter import *
+from tkinter import Tk, Canvas, PhotoImage, CENTER
 
 import math
 
 import medicine.medicine_list_gui as medicine
 import treatment.treatment_gui as treatment
+import cprhelper.cprhelper_gui as cpr
+import heartbeat.heartbeat_gui as heartbeat
+import emergency.emergency_gui as emergency
 
 NUMBER_OF_MEDICINE_CONTAINER = 8
 NUMBER_OF_IMAGE_BUTTON = 0
@@ -49,13 +52,13 @@ def medicine_callback():
     medicine.start_gui()
 
 
-def emergency_callback():  # TODO
-    pass
+def emergency_callback():
+    emergency.start_gui()
 
 
-def cpr_callback():  # TODO
-    pass
+def cpr_callback():
+    cpr.start_gui()
 
 
-def heartbeat_callback():  # TODO
-    pass
+def heartbeat_callback():
+    heartbeat.start_gui()
