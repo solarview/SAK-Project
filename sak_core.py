@@ -2,19 +2,19 @@ import os
 from tkinter import Toplevel, Canvas, PhotoImage, CENTER, NW, N, NE, SW, S, SE, Label
 import math
 from PIL import Image, ImageTk
+import sak_setting
  
 
 import medicine
 import treatment
 import cprhelper as cpr
-import heartbeat
+import bpm
 import emergency
 
 
-NUMBER_OF_MEDICINE_CONTAINER = 6
+NUMBER_OF_MEDICINE_CONTAINER = sak_setting.NUMBER_OF_MEDICINE_CONTAINER
 NUMBER_OF_IMAGE_BUTTON = 0
-RESOURCE_DIR_PATH = os.path.dirname(
-    os.path.realpath(__file__)) + "\\" + "resources" + "\\"
+RESOURCE_DIR_PATH = sak_setting.RESOURCE_DIR_PATH
 
 def start_sak_main_window():
     global NUMBER_OF_IMAGE_BUTTON
@@ -24,7 +24,7 @@ def start_sak_main_window():
                     "x" + str(window.winfo_screenheight()))
     window.title('SAK - Smart Aid Kit')
     for (name, func) in [("treatment_logo", treatment.start_gui), ("medicine_logo", medicine.start_list_gui), ("emergency_logo", emergency.start_gui), ("cpr_logo", cpr.start_gui),
-                         ("heartbeat_logo", heartbeat.start_gui)]:
+                         ("bpm_logo", bpm.start_gui)]:
         create_image_button(window, name, func)
     
     window.mainloop()
