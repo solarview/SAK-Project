@@ -32,7 +32,7 @@ def animate(i):
 
 
 def getbpm() -> int:
-    return 0 # sak_gpio.get_bpm()
+    return sak_gpio.get_bpm()
 
 def start_gui():
     global fig
