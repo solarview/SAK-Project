@@ -1,6 +1,8 @@
-from tkinter import Tk
+from tkinter import Tk, Label
+import sak_gpio
 
 window = None
+
 
 def start_gui():
     global window
@@ -10,18 +12,19 @@ def start_gui():
     window.resizable(False, False)
     window.title('CPR Helper - SAK')
 
-    #TODO Show Something
-    
+    met_label = Label(window, text="100 / 60s", font=("Purisa", 30), anchor="center")
+    met_label.pack()
     beep_repeat()
 
     window.mainloop()
 
+
 def beep_repeat():
     global window
     make_beep_sound()
-    window.after(1000 * 100 / 60, beep_repeat)
+    window.after(int(1000 * 100 / 60), beep_repeat)
 
-        
 
-def make_beep_sound(): #TODO Use RPi.GPIO or anything else to make beep sound
+def make_beep_sound():
     pass
+    sak_gpio.out_beep_sound(1)

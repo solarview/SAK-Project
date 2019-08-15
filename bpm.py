@@ -32,12 +32,9 @@ def animate(i):
 
 
 def getbpm() -> int:
-    return sak_gpio.get_bpm()
+    return 0 # sak_gpio.get_bpm()
 
 def start_gui():
     global fig
     anim = animation.FuncAnimation(fig, animate, init_func=init, frames=200, interval=200, blit=True)
     plt.show()
-
-
-start_gui()

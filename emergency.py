@@ -15,8 +15,11 @@ def start_gui():
                           width=10, height=5, relief="solid")
     button = Button(window, overrelief="solid", text="Call Off 119", width=15,
                     command=call_off_event, repeatdelay=1000, repeatinterval=100)
+    
     calling_label.pack()
     button.pack()
+
+    window.mainloop()
 
 
 def call_off_event(event):
@@ -27,6 +30,7 @@ serialport = None
 
 
 def call_by_gsm():
+    '''
     global serialport
     serialport = Serial("/dev/ttyAMA0", 115200, timeout=0.5)
     serialport.write("AT\r")
@@ -40,12 +44,15 @@ def call_by_gsm():
     response = serialport.readlines(None)
     serialport.write("ATD 119;\r")
     response = serialport.readlines(None)
+    '''
 
 
 def call_off():
+    '''
     global serialport
     serialport.write("AT\r")
     response = serialport.readlines(None)
     serialport.write("ATH\r")
     response = serialport.readlines(None)
     print(response)
+    '''

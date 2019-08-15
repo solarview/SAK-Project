@@ -1,9 +1,9 @@
 import os
-from tkinter import Toplevel, Canvas, PhotoImage, CENTER, NW, N, NE, SW, S, SE, Label
+from tkinter import Toplevel, Canvas, PhotoImage, CENTER, Label
 import math
 from PIL import Image, ImageTk
 import sak_setting
- 
+
 
 import medicine
 import treatment
@@ -16,6 +16,7 @@ NUMBER_OF_MEDICINE_CONTAINER = sak_setting.NUMBER_OF_MEDICINE_CONTAINER
 NUMBER_OF_IMAGE_BUTTON = 0
 RESOURCE_DIR_PATH = sak_setting.RESOURCE_DIR_PATH
 
+
 def start_sak_main_window():
     global NUMBER_OF_IMAGE_BUTTON
     NUMBER_OF_IMAGE_BUTTON = 0
@@ -23,20 +24,36 @@ def start_sak_main_window():
     window.geometry(str(window.winfo_screenwidth()) +
                     "x" + str(window.winfo_screenheight()))
     window.title('SAK - Smart Aid Kit')
-    for (name, func) in [("treatment_logo", treatment.start_gui), ("medicine_logo", medicine.start_list_gui), ("emergency_logo", emergency.start_gui), ("cpr_logo", cpr.start_gui),
-                         ("bpm_logo", bpm.start_gui)]:
-        create_image_button(window, name, func)
-    
+    canvas = Canvas(window, height=window.winfo_screenheight(),
+                    width=window.winfo_screenwidth(), relief="solid", bd=2)
+    for (name, func) in [
+        ("treatment_logo", treatment.start_gui),
+        ("medicine_logo", medicine.start_list_gui),
+        ("emergency_logo", emergency.start_gui),
+        ("cpr_logo", cpr.start_gui),
+        ("bpm_logo", bpm.start_gui)]:
+        print(name)
+        create_rectangle_button(window, canvas, name, func)
+
+    canvas.focus_set()
+    canvas.pack()
     window.mainloop()
 
 
-def create_image_button(window: Toplevel, name: str, func) -> Canvas:
+def create_rectangle_button(window: Toplevel, canvas: Canvas, name: str, func) -> Canvas:
     side_size = int(window.winfo_screenheight() / 9)
-    ima = Image.open(RESOURCE_DIR_PATH + "images\\" + name + ".png")
-    ima = ima.resize((side_size, side_size,), Image.ANTIALIAS)
-    ima = ImageTk.PhotoImage(ima)
-    label = Label(window, image=ima)
-    label.place(width=side_size, height=side_size)
-    label.image = ima
-    label.bind("<Button-1>", lambda event: func())
-    label.pack_configure(anchor=CENTER)
+    x, y = get_xy_pos(window)
+    rec_id = canvas.create_rectangle(x - side_size / 2, y - side_size / 2, x + side_size / 2, y + side_size / 2, fill="lightblue")
+    text_id = canvas.create_text(x, y, text = name[:-5], font=("Purisa", 10))
+    canvas.tag_bind(rec_id, "<Button-1>", lambda event: func())
+    canvas.tag_bind(text_id, "<Button-1>", lambda event: func())
+
+
+def get_xy_pos(window: Toplevel):
+    global NUMBER_OF_IMAGE_BUTTON
+    NUMBER_OF_IMAGE_BUTTON += 1
+    i = NUMBER_OF_IMAGE_BUTTON % 3
+    if i == 0:
+        i = 3
+    ii = 1 if NUMBER_OF_IMAGE_BUTTON < 4 else 2
+    return i * window.winfo_screenwidth() / 4, ii * window.winfo_screenheight() / 3
