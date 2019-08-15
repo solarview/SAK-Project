@@ -2,23 +2,21 @@ from tkinter import Tk, Label, Listbox
 import urllib.request
 import json
 import os
-import sak_core
-
-
-treatment_list = get_treatment_list()
+import sqlite3
+from sak_setting import RESOURCE_DIR_PATH
 
 
 def start_gui():
     window = Tk()
-    window.geometry(str(window.winfo_screenwidth()) + "x" +
-                    str(window.winfo_screenheight()) + "+0+0")
+    window.geometry("%dx%d+%d+%d" % (window.winfo_screenwidth(),
+                                     window.winfo_screenheight(), 0, 0))
     window.title('Treatment SAK')
     toptext = Label(window, text="Treatments List", width=window.winfo_screenwidth(),
-                    height=window.winfo_screenheight() / 7)
+                    height=int(window.winfo_screenheight() / 7), anchor="n")
     treatment_list_box = Listbox(window, selectmode='extended',
-                                 height=6 / 7 * window.winfo_screenheight(), yscrollcommand=True)
-    for i in range(len(treatment_list)):
-        treatment_list_box.insert(i, treatment_list[i]["name"])
+                                 height=int(6 / 7 * window.winfo_screenheight()), yscrollcommand=True)
+    for treatment in get_treatments():
+        treatment_list_box.insert(treatment[0], treatment[2])
 
     treatment_list_box.bind("<<ListboxSelect>>", clicked)
     toptext.pack()
@@ -29,16 +27,16 @@ def start_gui():
 def clicked(event):
     w = event.widget
     index = int(w.curselection()[0])
-    treatment_info = treatment_list[index]
+    treatment_info = get_treatment(index)
 
     window = Tk()
     window.geometry(str(window.winfo_screenwidth()) + "x" +
                     str(window.winfo_screenheight()) + "0+0")
-    window.title('Treatment SAK - About ' + treatment_info["name"])
+    window.title('Treatment SAK - About ' + treatment_info[2])
 
-    toptext = Label(window, text=treatment_info["name"], width=window.winfo_screenwidth(),
+    toptext = Label(window, text=treatment_info[2], width=window.winfo_screenwidth(),
                     height=window.winfo_screenheight() / 7)
-    doctext = Label(window, text=treatment_info["document"], justify="left", width=window.winfo_screenwid(),
+    doctext = Label(window, text=treatment_info[4], justify="left", width=window.winfo_screenwid(),
                     height=window.winfo_screenheight() * 6 / 7)
 
     toptext.pack()
@@ -47,36 +45,61 @@ def clicked(event):
     window.mainloop()
 
 
-# id_treatment(id, name, version, document, images( id : image data //Not now))
-# how to call image id in doc: $$0$$
-
-def update_treatments():
-    data = json.loads(
-        urllib.request.urlopen(
-            "http://sakproject.ml/treatments_list.json").read().decode())  # data ( id : integer , version : integer)
-    if not os.path.isdir(sak_core.RESOURCE_DIR_PATH + "treatments"):
-        os.mkdir(sak_core.RESOURCE_DIR_PATH + "treatments")
-    for i in range(len(data)):
-        if not os.path.isfile(sak_core.RESOURCE_DIR_PATH + "treatments/" + data[i]["id"] + "_treatment.sak"):
-            f = open(i + "_treatment.sak", "w+")
-            f.write(urllib.request.urlopen("http://sakproject.ml/" +
-                                           i + "_treatments.sak").read().decode())
-            f.close()
-        else:
-            f = open(i + "_treatment.sak", "r+")
-            d = json.loads(f.read())
-            if int(d["version"]) < data[i]["version"]:
-                f.close()
-                f = open(i + "_treatment.sak", "w+")
-                f.write(urllib.request.urlopen(
-                    "http://sakproject.ml/" + i + "_treatments.sak").read().decode())
-                f.close()
+def start_db():
+    conn = sqlite3.connect(RESOURCE_DIR_PATH + 'treatment.db')
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='treatment'")  # Table Name is 'treatment'
+    rows = cur.fetchall()
+    is_exist = False
+    for row in rows:
+        if row[0] == "treatment":
+            is_exist = True
+            break
+    if not is_exist:  # If Table is not exist, we will create table
+        cur.execute("CREATE TABLE "
+                    "treatment("
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "treatment_id INTEGER NOT NULL,"
+                    "name TEXT NOT NULL,"
+                    "version INTEGER NOT NULL,"
+                    "document TEXT)"
+                    )
+    conn.commit()
+    conn.close()
 
 
-def get_treatment_list() -> list:
-    file_list = os.listdir(sak_core.RESOURCE_DIR_PATH + "treatments/")
-    treatment_list = []
-    for fname in file_list:
-        f = open(sak_core.RESOURCE_DIR_PATH + "treatments/" + fname, "r+")
-        treatment_list.append(json.loads(f.read())["name"])
-    return treatment_list
+def get_treatments():
+    conn = sqlite3.connect(RESOURCE_DIR_PATH +
+                           'treatment.db')
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT id, treatment_id, name, version, document FROM treatment")
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def get_treatment(treatment_id: int):
+    conn = sqlite3.connect(RESOURCE_DIR_PATH +
+                           'treatment.db')
+    cur = conn.cursor()
+    cur.execute("SELECT id, treatment_id, name, version, document FROM treatment WHERE id = ?", [
+                treatment_id])
+    rows = cur.fetchall()
+    conn.close()
+    return rows[0]
+
+
+def register_treatment(treatment_id: int, name: str, version: int, document: str):
+    conn = sqlite3.connect(RESOURCE_DIR_PATH +
+                           'treatment.db')  # get treatment data
+    cur = conn.cursor()
+    cur.execute("INSERT INTO treatment(treatment_id, name, version, document) VALUES (?, ?, ?, ?)", [
+        treatment_id, name, version, document])
+    conn.commit()
+    conn.close()
+
+
+def treatment_update(): #By HTML JSON
+   pass 
