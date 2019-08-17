@@ -10,6 +10,7 @@ def start_gui():
     window = Tk()
     window.geometry("%dx%d+%d+%d" % (window.winfo_screenwidth(),
                                      window.winfo_screenheight(), 0, 0))
+    window.resizable(False, False)
     window.title('Treatment SAK')
     toptext = Label(window, text="Treatments List", width=window.winfo_screenwidth(),
                     height=int(window.winfo_screenheight() / 7), anchor="n")

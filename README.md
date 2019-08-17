@@ -31,7 +31,7 @@ SAK-TS(Smart Aid Kit - Treatment Server) Project is https://github.com/JuneBridg
 | 8/12 | Launch SAK-TS | [x] |
 | 8/14 | Finish SAK-TS | [ ] |
 | 8/15 | Finish Alpha | [x] |
-| 8/15 | Launch Beta | [ ] |
+| 8/15 | Launch Beta | [x] |
 | 8/17 | Finish Beta | [ ] |
 | 8/17 | Launch v1.0.0 | [ ] |
 | 8/24 | Project Ends | [ ] |

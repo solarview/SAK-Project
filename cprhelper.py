@@ -22,9 +22,8 @@ def start_gui():
 def beep_repeat():
     global window
     make_beep_sound()
-    window.after(int(1000 * 100 / 60), beep_repeat)
+    window.after(int(600), beep_repeat)
 
 
 def make_beep_sound():
-    pass
     sak_gpio.out_beep_sound(1)

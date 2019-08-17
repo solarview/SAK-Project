@@ -5,7 +5,7 @@ from tkinter import Tk, Label, Button
 def start_gui():
     window = Tk()
     window.geometry(str(int(window.winfo_screenwidth() / 4)) + "x" +
-                    str(int(window.winfo_screenheight() / 3)) + "+"+str(window.winfo_screenheight())+"+"+str(window.winfo_screenwidth()))
+                    str(int(window.winfo_screenheight() / 3)))
     window.resizable(False, False)
     window.title('Emergency - SAK')
 
@@ -30,7 +30,6 @@ serialport = None
 
 
 def call_by_gsm():
-    '''
     global serialport
     serialport = Serial("/dev/ttyAMA0", 115200, timeout=0.5)
     serialport.write("AT\r")
@@ -44,15 +43,12 @@ def call_by_gsm():
     response = serialport.readlines(None)
     serialport.write("ATD 119;\r")
     response = serialport.readlines(None)
-    '''
 
 
 def call_off():
-    '''
     global serialport
     serialport.write("AT\r")
     response = serialport.readlines(None)
     serialport.write("ATH\r")
     response = serialport.readlines(None)
     print(response)
-    '''

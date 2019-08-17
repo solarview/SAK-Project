@@ -19,10 +19,13 @@ RESOURCE_DIR_PATH = sak_setting.RESOURCE_DIR_PATH
 
 def start_sak_main_window():
     global NUMBER_OF_IMAGE_BUTTON
+    medicine.start_db()
+    treatment.start_db()
     NUMBER_OF_IMAGE_BUTTON = 0
     window = Toplevel()
     window.geometry(str(window.winfo_screenwidth()) +
                     "x" + str(window.winfo_screenheight()))
+    window.resizable(False, False)
     window.title('SAK - Smart Aid Kit')
     canvas = Canvas(window, height=window.winfo_screenheight(),
                     width=window.winfo_screenwidth(), relief="solid", bd=2)
