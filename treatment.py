@@ -1,5 +1,5 @@
 from tkinter import Tk, Label, Listbox
-import urllib.request
+import urllib.request as urllib
 import json
 import os
 import sqlite3
@@ -17,7 +17,7 @@ def start_gui():
     treatment_list_box = Listbox(window, selectmode='extended',
                                  height=int(6 / 7 * window.winfo_screenheight()), yscrollcommand=True)
     for treatment in get_treatments():
-        treatment_list_box.insert(treatment[0], treatment[2])
+        treatment_list_box.insert(treatment[1], treatment[2])
 
     treatment_list_box.bind("<<ListboxSelect>>", clicked)
     toptext.pack()
@@ -85,10 +85,12 @@ def get_treatment(treatment_id: int):
     conn = sqlite3.connect(RESOURCE_DIR_PATH +
                            'treatment.db')
     cur = conn.cursor()
-    cur.execute("SELECT id, treatment_id, name, version, document FROM treatment WHERE id = ?", [
+    cur.execute("SELECT id, treatment_id, name, version, document FROM treatment WHERE treatment_id = ?", [
                 treatment_id])
     rows = cur.fetchall()
     conn.close()
+    if len(rows) <= 0:
+        return False
     return rows[0]
 
 
@@ -101,6 +103,26 @@ def register_treatment(treatment_id: int, name: str, version: int, document: str
     conn.commit()
     conn.close()
 
+def delete_treatment(treatment_id: int):
+    conn = sqlite3.connect(RESOURCE_DIR_PATH +
+                           'treatment.db')  # get treatment data
+    cur = conn.cursor()
+    cur.execute("DELETE FROM treatment WHERE treatment_id = ?", [
+        treatment_id])
+    conn.commit()
+    conn.close()
 
-def treatment_update(): #By HTML JSON
-   pass 
+def treatment_update(treatment_id: int):
+    data = urllib.urlopen("http://sak-project.ml/treatment_"+str(treatment_id)+".json").read()
+    delete_treatment(treatment_id)
+    register_treatment(treatment_id, data["name"], data["version"], data["document"])
+
+
+def treatments_update(): #By HTML JSON
+    data = urllib.urlopen("http://sak-project.ml/treatment_list.json").read() # id(treatment_id): version
+    data = json.loads(data)
+    for (k, v) in data.items():
+        treatment = get_treatment(k)
+        if not treatment or treatment[3] < v:
+            treatment_update(v)
+        
