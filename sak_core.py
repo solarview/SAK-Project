@@ -19,8 +19,11 @@ RESOURCE_DIR_PATH = sak_setting.RESOURCE_DIR_PATH
 
 def start_sak_main_window():
     global NUMBER_OF_IMAGE_BUTTON
+
     medicine.start_db()
+    medicine.start_rfid_scanning()
     treatment.start_db()
+
     NUMBER_OF_IMAGE_BUTTON = 0
     window = Toplevel()
     window.geometry(str(window.winfo_screenwidth()) +

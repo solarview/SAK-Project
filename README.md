@@ -1,7 +1,7 @@
 # SAK-Project
 | Building or Launching Version | Stable Version |
 |:--------:|:-------:|
-| [![Version](https://img.shields.io/badge/Building--Version-v1.0.0--beta1-blue)](https://github.com/JuneBridge03/SAK-Project) | [![Version](https://img.shields.io/badge/Stable--Version-None-grey)](https://github.com/JuneBridge03/SAK-Project) |
+| [![Version](https://img.shields.io/badge/Building--Version-v1.0.0--beta2-blue)](https://github.com/JuneBridge03/SAK-Project) | [![Version](https://img.shields.io/badge/Stable--Version-None-grey)](https://github.com/JuneBridge03/SAK-Project) |
 
 
 SAK(Smart Aid Kit) for http://www.elearningkorea.org/concours/concours2

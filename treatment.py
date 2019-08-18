@@ -26,8 +26,7 @@ def start_gui():
 
 
 def clicked(event):
-    w = event.widget
-    index = int(w.curselection()[0])
+    index = int(event.widget.curselection()[0])
     treatment_info = get_treatment(index)
 
     window = Tk()
