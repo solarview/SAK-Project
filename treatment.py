@@ -102,6 +102,7 @@ def register_treatment(treatment_id: int, name: str, version: int, document: str
     conn.commit()
     conn.close()
 
+
 def delete_treatment(treatment_id: int):
     conn = sqlite3.connect(RESOURCE_DIR_PATH +
                            'treatment.db')  # get treatment data
@@ -111,17 +112,20 @@ def delete_treatment(treatment_id: int):
     conn.commit()
     conn.close()
 
+
 def treatment_update(treatment_id: int):
-    data = urllib.urlopen("http://sak-project.ml/treatment_"+str(treatment_id)+".json").read()
+    data = urllib.urlopen("http://sak-project.ml/treatment_" +
+                          str(treatment_id)+".json").read()
     delete_treatment(treatment_id)
-    register_treatment(treatment_id, data["name"], data["version"], data["document"])
+    register_treatment(
+        treatment_id, data["name"], data["version"], data["document"])
 
 
-def treatments_update(): #By HTML JSON
-    data = urllib.urlopen("http://sak-project.ml/treatment_list.json").read() # id(treatment_id): version
+def treatments_update():  # By HTML JSON
+    # id(treatment_id): version
+    data = urllib.urlopen("http://sak-project.ml/treatment_list.json").read()
     data = json.loads(data)
     for (k, v) in data.items():
         treatment = get_treatment(k)
         if not treatment or treatment[3] < v:
             treatment_update(v)
-        

@@ -21,6 +21,7 @@ def start_sak_main_window():
     global NUMBER_OF_IMAGE_BUTTON
 
     medicine.start_db()
+    medicine.check_expire_date()
     medicine.start_rfid_scanning()
     treatment.start_db()
 
@@ -37,7 +38,7 @@ def start_sak_main_window():
         ("medicine_logo", medicine.start_list_gui),
         ("emergency_logo", emergency.start_gui),
         ("cpr_logo", cpr.start_gui),
-        ("bpm_logo", bpm.start_gui)]:
+            ("bpm_logo", bpm.start_gui)]:
         print(name)
         create_rectangle_button(window, canvas, name, func)
 
@@ -49,8 +50,9 @@ def start_sak_main_window():
 def create_rectangle_button(window: Toplevel, canvas: Canvas, name: str, func) -> Canvas:
     side_size = int(window.winfo_screenheight() / 9)
     x, y = get_xy_pos(window)
-    rec_id = canvas.create_rectangle(x - side_size / 2, y - side_size / 2, x + side_size / 2, y + side_size / 2, fill="lightblue")
-    text_id = canvas.create_text(x, y, text = name[:-5], font=("Purisa", 10))
+    rec_id = canvas.create_rectangle(
+        x - side_size / 2, y - side_size / 2, x + side_size / 2, y + side_size / 2, fill="lightblue")
+    text_id = canvas.create_text(x, y, text=name[:-5], font=("Purisa", 10))
     canvas.tag_bind(rec_id, "<Button-1>", lambda event: func())
     canvas.tag_bind(text_id, "<Button-1>", lambda event: func())
 

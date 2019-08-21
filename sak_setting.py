@@ -9,8 +9,10 @@ Rpi Pin setting
 '''
 
 #GPIO setting
-GPIO_BUZZER = 0
+GPIO_BUZZER = 24
+GPIO_BUTTON = 22
 
 #ADC setting
+ADC_SPI_BUS_NUM = 1
 ADC_SPI_DEVICE_NUM = 0
 ADC_CHANNEL_BPM = 0

@@ -12,7 +12,8 @@ def start_gui():
     window.resizable(False, False)
     window.title('CPR Helper - SAK')
 
-    met_label = Label(window, text="100 / 60s", font=("Purisa", 30), anchor="center")
+    met_label = Label(window, text="100 / 60s",
+                      font=("Purisa", 30), anchor="center")
     met_label.pack()
     beep_repeat()
 
@@ -26,4 +27,4 @@ def beep_repeat():
 
 
 def make_beep_sound():
-    sak_gpio.out_beep_sound(1)
+    sak_gpio.out_beep_sound(0.3)

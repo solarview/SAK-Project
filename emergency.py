@@ -14,16 +14,12 @@ def start_gui():
     calling_label = Label(window, text="Calling 119",
                           width=10, height=5, relief="solid")
     button = Button(window, overrelief="solid", text="Call Off 119", width=15,
-                    command=call_off_event, repeatdelay=1000, repeatinterval=100)
-    
+                    command=lambda event: call_off(), repeatdelay=1000, repeatinterval=100)
+
     calling_label.pack()
     button.pack()
 
     window.mainloop()
-
-
-def call_off_event(event):
-    call_off()
 
 
 serialport = None
