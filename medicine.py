@@ -38,17 +38,17 @@ def start_list_gui():
 def start_info_gui(medicine_id):
     medicine = get_medicine_by_id(medicine_id)
     window = Tk()
-    window.geometry(str(int(window.winfo_screenwidth() / 4)) + "x" +
-                    str(int(window.winfo_screenheight() / 3)) + "+0+0")
+    window.geometry(str(window.winfo_screenwidth() // 4) + "x" +
+                    str(window.winfo_screenheight() // 3) + "+0+0")
     window.resizable(False, False)
     window.title(str(medicine[2]) + ' - Medicines List SAK')
 
     name_label = Label(window, text="Name : " +
-                       str(medicine[2]), width=int(window.winfo_screenwidth() / 4), height=3, relief="solid")
+                       str(medicine[2]), width=window.winfo_screenwidth() // 4, height=3, relief="solid")
     expire_date_label = Label(window, text="Expire date : " +
-                              str(medicine[3]), width=int(window.winfo_screenwidth() / 4), height=3, relief="solid")
+                              str(medicine[3]), width=window.winfo_screenwidth() // 4, height=3, relief="solid")
     document_label = Label(window, text=str(
-        medicine[4]), width=int(window.winfo_screenwidth() / 4), height=int(window.winfo_screenheight() / 3) - 6, anchor="n", relief="solid", justify="left")
+        medicine[4]), width=window.winfo_screenwidth() // 4, height=(window.winfo_screenheight() // 3) - 6, anchor="n", relief="solid", justify="left")
 
     name_label.pack()
     expire_date_label.pack()
@@ -75,8 +75,8 @@ def rfid_scan(rfid_id: int):
         conn.close()
 
         window = Tk()
-        window.geometry("50x50+" + str(int(window.winfo_screenwidth() / 2)
-                                       ) + "+" + str(int(window.winfo_screenheight() / 2)))
+        window.geometry("50x50+" + str(window.winfo_screenwidth() // 2
+                                       ) + "+" + str(window.winfo_screenheight() // 2))
         window.resizable(False, False)
         window.title('Medicine InOut')
         Label(window, text=medicine[2] + " is " + tt).pack()
@@ -87,8 +87,8 @@ def rfid_scan(rfid_id: int):
 
 def rfid_register(rfid_id: int):
     window = Tk()
-    window.geometry(str(int(window.winfo_screenwidth() / 4)) + "x" +
-                    str(int(window.winfo_screenheight() / 3)) + "+0+0")
+    window.geometry(str(window.winfo_screenwidth() // 4) + "x" +
+                    str(window.winfo_screenheight() // 3) + "+0+0")
     window.resizable(False, False)
     window.title('Medicine Register SAK')
 
@@ -286,12 +286,12 @@ def check_expire_date():  # TODO
     global expire_ids
     expire_ids = []
     window = Tk()
-    window.geometry(str(window.winfo_screenwidth() / 5) + "x" +
-                    str(window.winfo_screenheight() / 5) + "+0+0")
+    window.geometry(str(window.winfo_screenwidth() // 5) + "x" +
+                    str(window.winfo_screenheight() // 5) + "+0+0")
     window.title('Medicine Expired list - SAK')
     window.resizable(False, False)
     expired_list = Listbox(
-        window, selectmode='extended', width=window.winfo_screenwidth() / 5, height=window.winfo_screenheight() / 5, yscrollcommand=True) 
+        window, selectmode='extended', width=window.winfo_screenwidth() // 5, height=window.winfo_screenheight() // 5, yscrollcommand=True) 
     i = 0
     for medicine in get_medicines():
         times = medicine[3].split("/")
