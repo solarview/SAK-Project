@@ -16,3 +16,13 @@ GPIO_BUTTON = 22
 ADC_SPI_BUS_NUM = 1
 ADC_SPI_DEVICE_NUM = 0
 ADC_CHANNEL_BPM = 0
+
+'''
+RPi <-> ADC pinout
+pin 12 <-> CS or CE 0 , ADC_SPI_DEVICE_NUM = 0
+pin 11 <-> CS or CE 1 , ADC_SPI_DEVICE_NUM = 1
+pin 36 <-> CS or CE 2 , ADC_SPI_DEVICE_NUM = 2
+pin 35 <-> MISO
+pin 38 <-> MOSI
+pin 40 <-> SCLK or CLK
+'''
